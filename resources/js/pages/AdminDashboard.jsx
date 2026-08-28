@@ -162,12 +162,13 @@ export default function AdminDashboard({ tab = 'dashboard', navigate }) {
                   title={sidebarCollapsed ? item.label : undefined}
                   className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${
                     isActive
-                      ? 'bg-rose-600 text-white font-bold shadow-md shadow-rose-600/20'
+                      ? 'bg-rose-600 !text-white font-bold shadow-md shadow-rose-600/20'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
+                  style={isActive ? { color: '#ffffff' } : {}}
                 >
-                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-rose-400'}`} />
-                  {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? '!text-white' : 'text-slate-400 group-hover:text-rose-400'}`} style={isActive ? { color: '#ffffff' } : {}} />
+                  {!sidebarCollapsed && <span className="truncate" style={isActive ? { color: '#ffffff' } : {}}>{item.label}</span>}
                 </button>
               );
             })}
