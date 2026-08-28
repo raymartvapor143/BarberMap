@@ -7,6 +7,12 @@ export default function AuthPortal({ initialMode = 'login', navigate }) {
   const [isLogin, setIsLogin] = useState(initialMode === 'login');
   const [role, setRole] = useState('shop_owner'); // shop_owner or customer
 
+  // Sync mode when prop changes (e.g. clicking Register from Login or vice versa)
+  useEffect(() => {
+    setIsLogin(initialMode === 'login');
+    setError('');
+  }, [initialMode]);
+
   // Form Fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
