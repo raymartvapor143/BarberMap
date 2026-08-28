@@ -287,6 +287,36 @@
     border-color: #e2e8f0 !important;
   }
 
+  /* Floating Map Action & Re-open Buttons in Light Mode */
+  .light-theme .leaflet-container button,
+  .light-theme .leaflet-container .bg-\[\#161b26\],
+  .light-theme .bg-\[\#161b26\] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .light-theme .leaflet-container .bg-\[\#161b26\]:hover {
+    background-color: #f8fafc !important;
+    border-color: #f59e0b !important;
+  }
+
+  .light-theme .leaflet-container .bg-\[\#161b26\] span {
+    color: #0f172a !important;
+  }
+
+  .light-theme .leaflet-control-zoom a {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .light-theme .leaflet-control-zoom a:hover {
+    background-color: #f1f5f9 !important;
+    color: #f59e0b !important;
+  }
+
   /* Leaflet Popups in light mode */
   .light-theme .leaflet-popup-content-wrapper {
     background: #ffffff !important;

@@ -490,10 +490,10 @@ export default function HomeMap({ navigate }) {
 
         {/* Floating Sidebar Re-Open Button when Collapsed (Desktop) */}
         {isSidebarCollapsed && (
-          <div className="absolute top-4 left-4 z-[1000] hidden md:flex items-center">
+          <div className="absolute top-4 left-14 z-[1000] hidden md:flex items-center">
             <button
               onClick={() => setIsSidebarCollapsed(false)}
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#161b26]/95 backdrop-blur-md hover:bg-amber-500 hover:text-slate-950 text-slate-200 border border-slate-700/80 shadow-2xl font-bold text-xs transition-all animate-in fade-in"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#161b26] hover:bg-amber-500 hover:text-slate-950 text-slate-100 border border-slate-700/80 shadow-2xl font-bold text-xs transition-all animate-in fade-in"
               title="Expand Barber Discovery Sidebar"
             >
               <PanelLeftOpen className="w-4 h-4 text-amber-400" />
@@ -502,28 +502,28 @@ export default function HomeMap({ navigate }) {
           </div>
         )}
 
-        {/* Mobile Floating Floating 'Show List / Split' Button when in Full Map mode */}
+        {/* Mobile Floating 'Show List / Split' Button when in Full Map mode (Positioned clearly without colliding with zoom controls) */}
         {mobileViewMode === 'map' && (
-          <div className="md:hidden absolute top-4 left-4 z-[1000] flex items-center">
+          <div className="md:hidden absolute top-3 left-14 z-[1000] flex items-center">
             <button
               onClick={() => setMobileViewMode('split')}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#161b26]/95 backdrop-blur-md text-white border border-slate-700/80 shadow-2xl font-bold text-xs hover:bg-slate-800 transition-all"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#161b26] text-amber-400 border border-amber-500/30 shadow-2xl font-extrabold text-xs hover:bg-[#1f2636] active:scale-95 transition-all"
             >
-              <List className="w-4 h-4 text-amber-400" />
-              <span>Show List ({shops.length})</span>
+              <List className="w-4 h-4 text-amber-400 stroke-[2.5]" />
+              <span className="text-white">Show List ({shops.length})</span>
             </button>
           </div>
         )}
 
         {/* Floating Quick Action Widget (Top Right) */}
-        <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
+        <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-2">
           <button
             onClick={() => {
               if (mapInstanceRef.current) {
                 mapInstanceRef.current.flyTo([14.5995, 120.9842], 12, { duration: 1 });
               }
             }}
-            className="p-2.5 rounded-xl bg-[#161b26]/90 backdrop-blur-md hover:bg-slate-800 text-slate-200 border border-slate-700/80 shadow-xl transition-all"
+            className="p-2.5 rounded-xl bg-[#161b26] hover:bg-[#1f2636] text-slate-200 border border-slate-700/80 shadow-xl transition-all"
             title="Reset Map View to Manila"
           >
             <Navigation className="w-4 h-4 text-amber-400" />
