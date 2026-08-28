@@ -1,0 +1,18 @@
+[phases.setup]
+nixPkgs = ["nodejs_22", "php83", "php83Packages.composer"]
+
+[phases.install]
+cmds = [
+    "composer install --no-dev --optimize-autoloader --no-interaction",
+    "npm ci"
+]
+
+[phases.build]
+cmds = [
+    "npm run build",
+    "php artisan storage:link",
+    "php artisan optimize"
+]
+
+[start]
+cmd = "php artisan serve --host=0.0.0.0 --port=${PORT}"
