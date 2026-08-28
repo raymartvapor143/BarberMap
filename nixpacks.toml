@@ -11,6 +11,7 @@ cmds = [
 cmds = [
     "npm run build",
     "php artisan storage:link",
+    "php artisan migrate --force --seed",
     "php artisan optimize"
 ]
 
