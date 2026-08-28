@@ -75,12 +75,12 @@ export default function AuthPortal({ initialMode = 'login', navigate }) {
   };
 
   return (
-    <div className="min-h-full w-full flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-8 bg-[#090b0f] relative overflow-y-auto overflow-x-hidden">
+    <div className="w-full flex-1 flex flex-col items-center justify-start py-8 px-4 sm:px-6 md:px-8 bg-[#090b0f] relative overflow-y-auto overflow-x-hidden">
       
       {/* Background glowing gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <div className="max-w-xl w-full bg-[#131720]/90 backdrop-blur-xl border border-slate-800/90 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl relative z-10 my-6 sm:my-10">
+      <div className="max-w-xl w-full bg-[#131720]/90 backdrop-blur-xl border border-slate-800/90 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl relative z-10 my-auto">
         
         {/* Header */}
         <div className="text-center space-y-2 mb-6 sm:mb-8">
