@@ -58,7 +58,11 @@ export default function AdminDashboard({ tab = 'dashboard', navigate }) {
         setData(res.data.data || res.data || []);
       }
     } catch (e) {
-      console.error(e);
+      if (e.response?.status === 429) {
+        setMessage('Server is temporarily rate-limiting requests. Please wait a few seconds before switching tabs again.');
+      } else {
+        console.error(e);
+      }
     } finally {
       setLoading(false);
     }

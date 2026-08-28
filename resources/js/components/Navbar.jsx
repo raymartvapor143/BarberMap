@@ -195,28 +195,20 @@ export default function Navbar({ currentRoute, navigate }) {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Mobile Menu & Theme */}
+          <div className="md:hidden flex items-center gap-1.5">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-slate-800/80 text-amber-400 border border-slate-700/60"
+              className="p-2 rounded-xl bg-slate-800/80 text-amber-400 border border-slate-700/60 flex items-center justify-center transition-colors"
               title="Toggle Theme"
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            {user && (
-              <button
-                onClick={() => navigate(user.role === 'shop_owner' ? '/owner/dashboard' : '/admin/dashboard')}
-                className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400 text-xs font-bold"
-              >
-                Dashboard
-              </button>
-            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-slate-800 text-slate-200 hover:text-white"
+              className="p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white border border-slate-700/60 flex items-center justify-center transition-colors"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

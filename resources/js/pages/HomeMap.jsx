@@ -237,43 +237,6 @@ export default function HomeMap({ navigate }) {
   return (
     <div className="relative flex-1 flex flex-col md:flex-row h-full w-full overflow-hidden bg-[#0b0e14]">
       
-      {/* MOBILE FLOATING VIEW SWITCHER (List / Split / Map) */}
-      <div className="md:hidden absolute top-3 left-1/2 -translate-x-1/2 z-[1000] flex items-center bg-[#161b26]/95 backdrop-blur-md p-1 rounded-full border border-slate-700/80 shadow-2xl">
-        <button
-          onClick={() => setMobileViewMode('list')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-            mobileViewMode === 'list' 
-              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
-              : 'text-slate-300 hover:text-white'
-          }`}
-        >
-          <List className="w-3.5 h-3.5" />
-          <span>List ({shops.length})</span>
-        </button>
-        <button
-          onClick={() => setMobileViewMode('split')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-            mobileViewMode === 'split' 
-              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
-              : 'text-slate-300 hover:text-white'
-          }`}
-        >
-          <Layers className="w-3.5 h-3.5" />
-          <span>Split</span>
-        </button>
-        <button
-          onClick={() => setMobileViewMode('map')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-            mobileViewMode === 'map' 
-              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
-              : 'text-slate-300 hover:text-white'
-          }`}
-        >
-          <Map className="w-3.5 h-3.5" />
-          <span>Map</span>
-        </button>
-      </div>
-
       {/* LEFT SIDEBAR: Search, Filters & Active Discovery List */}
       <div 
         className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col z-30 shadow-2xl transition-all duration-300 ease-in-out ${
@@ -287,21 +250,23 @@ export default function HomeMap({ navigate }) {
             ? 'hidden'
             : mobileViewMode === 'list'
               ? 'w-full h-full'
-              : 'w-full h-[45%] md:h-full'
+              : 'w-full h-[50%] md:h-full'
         } overflow-hidden flex-shrink-0`}
       >
         {/* Search & Header */}
-        <div className="p-4 border-b border-slate-800/80 space-y-3 bg-[#11151f] flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+        <div className="p-3 sm:p-4 border-b border-slate-800/80 space-y-2.5 sm:space-y-3 bg-[#11151f] flex-shrink-0">
+          
+          {/* Header Row: Status, Count & Mobile Switcher */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-200 truncate">
                 Live Barber Shops ({shops.length})
               </span>
             </div>
             
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <span className="text-[10px] text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 hidden sm:inline-block">
                 Verified Only
               </span>
 
@@ -314,6 +279,43 @@ export default function HomeMap({ navigate }) {
                 <PanelLeftClose className="w-4 h-4" />
               </button>
             </div>
+          </div>
+
+          {/* MOBILE VIEW TOGGLE TABS (Integrated inside header bar) */}
+          <div className="md:hidden flex items-center bg-[#161b26] p-1 rounded-xl border border-slate-700/60 shadow-inner">
+            <button
+              onClick={() => setMobileViewMode('list')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                mobileViewMode === 'list' 
+                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+              <span>List ({shops.length})</span>
+            </button>
+            <button
+              onClick={() => setMobileViewMode('split')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                mobileViewMode === 'split' 
+                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Split Map</span>
+            </button>
+            <button
+              onClick={() => setMobileViewMode('map')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                mobileViewMode === 'map' 
+                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Map className="w-3.5 h-3.5" />
+              <span>Full Map</span>
+            </button>
           </div>
 
           {/* Search Input */}
