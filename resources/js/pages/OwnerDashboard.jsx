@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../bootstrap';
 import { useAuth } from '../context/AuthContext';
-import { 
-  Store, MapPin, Calendar, Clock, Star, Scissors, 
-  Image as ImageIcon, FileText, CreditCard, Receipt, 
-  Settings, LogOut, CheckCircle2, AlertCircle, Plus, 
+import {
+  Store, MapPin, Calendar, Clock, Star, Scissors,
+  Image as ImageIcon, FileText, CreditCard, Receipt,
+  Settings, LogOut, CheckCircle2, AlertCircle, Plus,
   Trash2, Edit3, ExternalLink, ChevronRight, Upload, Bell
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -78,10 +78,10 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#0b0e14] text-slate-100 flex flex-col lg:flex-row relative">
-      
-      {/* MOBILE DASHBOARD TOP BAR (< 1024px) */}
-      <div className="lg:hidden bg-[#0e1117] border-b border-slate-800/80 p-3.5 flex items-center justify-between z-30">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#0b0e14] text-slate-100 flex flex-col md:flex-row relative">
+
+      {/* MOBILE DASHBOARD TOP BAR */}
+      <div className="md:hidden bg-[#0e1117] border-b border-slate-800/80 p-3.5 flex items-center justify-between z-30">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
             <Store className="w-4 h-4" />
@@ -96,33 +96,33 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-2 rounded-xl bg-[#161b26] border border-slate-700/80 text-amber-400 font-bold text-xs flex items-center gap-1.5 shadow-md"
         >
-          <span>Shop Menu</span>
+          <span>Menu</span>
           <ChevronRight className={`w-3.5 h-3.5 transition-transform ${mobileMenuOpen ? 'rotate-90' : ''}`} />
         </button>
       </div>
 
       {/* MOBILE OVERLAY BACKDROP */}
       {mobileMenuOpen && (
-        <div 
+        <div
           onClick={() => setMobileMenuOpen(false)}
           className="lg:hidden fixed inset-x-0 bottom-0 top-16 bg-black/70 backdrop-blur-sm z-40 animate-in fade-in"
         />
       )}
 
       {/* SIDEBAR NAVIGATION (Desktop: Collapsible Mini-rail / Full | Mobile: Slide-over Drawer) */}
-      <aside 
+      <aside
         className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col justify-between flex-shrink-0 z-40 transition-all duration-300 ease-in-out ${
-          // Desktop Width: 72px when collapsed, 260px when expanded
+          // Desktop Width: 68px when collapsed, 260px when expanded
           sidebarCollapsed ? 'lg:w-[72px] lg:p-3' : 'lg:w-64 lg:p-4'
-        } ${
+          } ${
           // Mobile & tablet responsive slide-over drawer
-          mobileMenuOpen 
-            ? 'fixed left-0 top-16 bottom-0 w-72 p-4 shadow-2xl flex translate-x-0 z-40' 
+          mobileMenuOpen
+            ? 'fixed left-0 top-16 bottom-0 w-72 p-4 shadow-2xl flex translate-x-0 z-40'
             : 'hidden lg:flex'
-        }`}
+          }`}
       >
         <div className="space-y-4">
-          
+
           {/* Header & Shop Tag */}
           <div className={`p-3 bg-[#11151f] rounded-2xl border border-slate-800 flex items-center ${sidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
             {!sidebarCollapsed && (
@@ -135,7 +135,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
             {/* Desktop Collapse / Expand Toggle Button */}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="hidden lg:flex p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-colors"
+              className="hidden md:flex p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-colors"
               title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronRight className="w-4 h-4 rotate-180" />}
@@ -144,7 +144,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
             {/* Mobile close button */}
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="lg:hidden p-1 text-slate-400 hover:text-white"
+              className="md:hidden p-1 text-slate-400 hover:text-white"
             >
               ✕
             </button>
@@ -163,15 +163,13 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                     setMobileMenuOpen(false);
                   }}
                   title={sidebarCollapsed ? item.label : undefined}
-                  className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${
-                    isActive
-                      ? 'bg-amber-500 !text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                  className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${isActive
+                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                  }`}
-                  style={isActive ? { color: '#0b0e14' } : {}}
+                    }`}
                 >
-                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? '!text-slate-950' : 'text-slate-400 group-hover:text-amber-400'}`} style={isActive ? { color: '#0b0e14' } : {}} />
-                  {!sidebarCollapsed && <span className="truncate" style={isActive ? { color: '#0b0e14' } : {}}>{item.label}</span>}
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-amber-400'}`} />
+                  {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
                 </button>
               );
             })}
@@ -196,7 +194,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                 </button>
               )}
 
-              <div 
+              <div
                 onClick={() => {
                   setActiveTab('subscription');
                   setMobileMenuOpen(false);
@@ -205,11 +203,10 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] uppercase font-bold text-slate-400">Subscription</span>
-                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded ${
-                    user?.shop?.status === 'active' 
+                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded ${user?.shop?.status === 'active'
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                  }`}>
+                    }`}>
                     {user?.shop?.status?.toUpperCase().replace('_', ' ') || 'PENDING'}
                   </span>
                 </div>
@@ -232,14 +229,13 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
 
       {/* MAIN OWNER CONTENT AREA */}
       <main className="flex-1 p-4 sm:p-8 overflow-y-auto max-h-[calc(100vh-4rem)]">
-        
+
         {/* Banner Message */}
         {message.text && (
-          <div className={`mb-6 p-4 rounded-xl text-xs font-semibold flex items-center justify-between border ${
-            message.type === 'success' 
-              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
+          <div className={`mb-6 p-4 rounded-xl text-xs font-semibold flex items-center justify-between border ${message.type === 'success'
+              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
               : 'bg-red-500/10 border-red-500/30 text-red-300'
-          }`}>
+            }`}>
             <span>{message.text}</span>
             <button onClick={() => setMessage({ text: '', type: 'success' })} className="text-xs">✕</button>
           </div>
@@ -255,7 +251,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
             {/* 1. DASHBOARD OVERVIEW TAB */}
             {activeTab === 'dashboard' && data && (
               <div className="space-y-6">
-                
+
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
@@ -281,7 +277,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                     <div>
                       <h4 className="text-xs font-bold text-amber-300">Shop Listing is Currently Hidden From Public Map</h4>
                       <p className="text-xs text-slate-300 mt-0.5">
-                        Status: <strong className="text-white uppercase">{data.shop.status?.replace('_', ' ') || 'PENDING'}</strong>. 
+                        Status: <strong className="text-white uppercase">{data.shop.status?.replace('_', ' ') || 'PENDING'}</strong>.
                         Your shop will become publicly searchable on the map as soon as your monthly subscription payment of ₱350 is verified by an administrator.
                       </p>
                       <button
@@ -321,7 +317,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                     <div>
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-bold uppercase text-slate-400">Profile Completion</span>
-                        <button 
+                        <button
                           onClick={() => setShowChecklistModal(true)}
                           className="text-[10px] font-bold text-amber-400 hover:text-amber-300 underline"
                         >
@@ -333,7 +329,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                         <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${data.kpis?.profile_completion ?? 0}%` }}></div>
                       </div>
                     </div>
-                    
+
                     <button
                       onClick={() => setShowChecklistModal(true)}
                       className="mt-3 w-full py-1.5 px-2 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-[10px] font-semibold text-slate-300 hover:text-white flex items-center justify-between border border-slate-700/60 transition-all"
@@ -360,7 +356,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                           </h3>
                           <p className="text-xs text-slate-400 mt-0.5">Complete all steps below to build trust and rank higher on discovery.</p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => setShowChecklistModal(false)}
                           className="p-1 rounded-lg text-slate-400 hover:text-white"
                         >
@@ -392,13 +388,12 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                           { key: 'hours', label: 'Weekly Business Hours', points: 10, is_completed: false, tab: 'hours' },
                           { key: 'portfolio', label: 'Haircut Portfolio Photos', points: 10, is_completed: false, tab: 'portfolio' },
                         ]).map((task, idx) => (
-                          <div 
+                          <div
                             key={idx}
-                            className={`p-3 rounded-xl border flex items-center justify-between text-xs transition-all ${
-                              task.is_completed 
-                                ? 'bg-emerald-500/5 border-emerald-500/20 text-slate-300' 
+                            className={`p-3 rounded-xl border flex items-center justify-between text-xs transition-all ${task.is_completed
+                                ? 'bg-emerald-500/5 border-emerald-500/20 text-slate-300'
                                 : 'bg-[#11141c] border-slate-800 text-white hover:border-slate-700'
-                            }`}
+                              }`}
                           >
                             <div className="flex items-center gap-3">
                               {task.is_completed ? (
@@ -444,7 +439,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
 
                 {/* Today's Schedule & Recent Activity */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  
+
                   {/* Today's Reservations */}
                   <div className="bg-[#131720] rounded-2xl p-6 border border-slate-800/80 shadow-lg space-y-4">
                     <div className="flex items-center justify-between">
@@ -515,69 +510,69 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
 
             {/* 2. SHOP PROFILE TAB */}
             {activeTab === 'profile' && data && (
-              <ShopProfileEditor 
-                shop={data.shop} 
+              <ShopProfileEditor
+                shop={data.shop}
                 onSaved={(updated) => {
                   setData({ shop: updated });
                   setMessage({ text: 'Shop profile saved successfully!', type: 'success' });
-                }} 
+                }}
               />
             )}
 
             {/* 3. SERVICES & PRICING TAB */}
             {activeTab === 'services' && data && (
-              <ShopServicesManager 
-                services={data.services} 
+              <ShopServicesManager
+                services={data.services}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 5. PHOTOS & PORTFOLIO TAB */}
             {activeTab === 'portfolio' && data && (
-              <ShopMediaManager 
-                photos={data.photos} 
-                portfolio={data.portfolio} 
+              <ShopMediaManager
+                photos={data.photos}
+                portfolio={data.portfolio}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 6. POSTS / CMS TAB */}
             {activeTab === 'posts' && data && (
-              <ShopPostsManager 
-                posts={data.posts} 
+              <ShopPostsManager
+                posts={data.posts}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 7. BUSINESS HOURS TAB */}
             {activeTab === 'hours' && data && (
-              <ShopHoursEditor 
-                hours={data.hours} 
-                breaks={data.breaks} 
+              <ShopHoursEditor
+                hours={data.hours}
+                breaks={data.breaks}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 8. RESERVATIONS MANAGEMENT TAB */}
             {activeTab === 'reservations' && data && (
-              <ShopReservationsManager 
-                reservations={data.reservations} 
+              <ShopReservationsManager
+                reservations={data.reservations}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 9. REVIEWS TAB */}
             {activeTab === 'reviews' && data && (
-              <ShopReviewsManager 
-                reviews={data.reviews} 
+              <ShopReviewsManager
+                reviews={data.reviews}
                 onRefresh={fetchTabData}
               />
             )}
 
             {/* 10. SUBSCRIPTION & BILLING TAB */}
             {activeTab === 'subscription' && data && (
-              <ShopBillingManager 
-                billing={data} 
+              <ShopBillingManager
+                billing={data}
                 onRefresh={fetchTabData}
               />
             )}
@@ -1202,16 +1197,16 @@ function ShopMediaManager({ photos, portfolio, onRefresh }) {
                   <div>
                     <span className="text-xs font-bold text-white block truncate mb-2">{p.title || 'Untitled Cut'}</span>
                     <div className="flex items-center gap-2">
-                      <button 
-                        onClick={() => openEdit(p)} 
+                      <button
+                        onClick={() => openEdit(p)}
                         className="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-[11px] font-bold flex items-center justify-center gap-1 border border-slate-700"
                         title="Edit Haircut Details"
                       >
                         <Edit3 className="w-3 h-3 text-amber-400" />
                         <span>Edit</span>
                       </button>
-                      <button 
-                        onClick={() => handleDeletePort(p.id)} 
+                      <button
+                        onClick={() => handleDeletePort(p.id)}
                         className="p-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30"
                         title="Delete Photo"
                       >
@@ -1236,7 +1231,7 @@ function ShopMediaManager({ photos, portfolio, onRefresh }) {
               </h3>
               <button type="button" onClick={() => setPortModal(false)} className="text-slate-400 hover:text-white">✕</button>
             </div>
-            
+
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
                 {editingPort ? 'Change Attached Photo (Optional)' : 'Attach Cut Photo'}
@@ -1250,10 +1245,10 @@ function ShopMediaManager({ photos, portfolio, onRefresh }) {
                 />
                 {portPreview ? (
                   <div className="flex flex-col items-center gap-1.5 w-full">
-                    <img 
-                      src={portPreview} 
-                      alt="Cut Preview" 
-                      className="h-28 max-w-full object-cover rounded-lg border border-slate-700 shadow" 
+                    <img
+                      src={portPreview}
+                      alt="Cut Preview"
+                      className="h-28 max-w-full object-cover rounded-lg border border-slate-700 shadow"
                     />
                     <span className="text-[11px] text-amber-400 font-semibold underline">Click to Choose New Photo</span>
                   </div>
@@ -1299,15 +1294,15 @@ function ShopMediaManager({ photos, portfolio, onRefresh }) {
               </select>
             </div>
             <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
-              <button 
-                type="button" 
-                onClick={() => setPortModal(false)} 
+              <button
+                type="button"
+                onClick={() => setPortModal(false)}
                 className="px-4 py-2 text-xs text-slate-400 hover:text-white"
               >
                 Cancel
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={saving}
                 className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow-md shadow-amber-500/20"
               >
@@ -1406,9 +1401,9 @@ function ShopPostsManager({ posts, onRefresh }) {
           <div key={p.id} className="p-4 rounded-2xl bg-[#131720] border border-slate-800/80 shadow-md space-y-2">
             {p.images && p.images.length > 0 && (
               <div className="w-full h-36 rounded-xl overflow-hidden bg-slate-900 mb-2">
-                <img 
-                  src={p.images[0].url} 
-                  alt={p.title} 
+                <img
+                  src={p.images[0].url}
+                  alt={p.title}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -1455,7 +1450,7 @@ function ShopPostsManager({ posts, onRefresh }) {
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white"
               />
             </div>
-            
+
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">Attach Post Image (Optional)</label>
               <label className="border-2 border-dashed border-slate-700 hover:border-amber-500/50 bg-slate-900/60 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer transition-all">
@@ -1467,10 +1462,10 @@ function ShopPostsManager({ posts, onRefresh }) {
                 />
                 {imagePreview ? (
                   <div className="flex flex-col items-center gap-1.5 w-full">
-                    <img 
-                      src={imagePreview} 
-                      alt="Post Preview" 
-                      className="h-28 max-w-full object-cover rounded-lg border border-slate-700 shadow" 
+                    <img
+                      src={imagePreview}
+                      alt="Post Preview"
+                      className="h-28 max-w-full object-cover rounded-lg border border-slate-700 shadow"
                     />
                     <span className="text-[11px] text-amber-400 font-semibold underline">Change Attached Image</span>
                   </div>
@@ -1501,15 +1496,15 @@ function ShopPostsManager({ posts, onRefresh }) {
               ></textarea>
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <button 
-                type="button" 
-                onClick={() => setModalOpen(false)} 
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
                 className="px-4 py-2 text-xs text-slate-400 hover:text-white"
               >
                 Cancel
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={saving}
                 className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow-md shadow-amber-500/20"
               >
@@ -1649,30 +1644,28 @@ function ShopHoursEditor({ hours, breaks, onRefresh }) {
       ) : (
         <div className="space-y-3">
           {schedule.map((h, i) => (
-            <div 
-              key={h.day_of_week} 
-              className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-all ${
-                h.is_closed 
-                  ? 'bg-slate-950/60 border-slate-800/60 opacity-60' 
+            <div
+              key={h.day_of_week}
+              className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-all ${h.is_closed
+                  ? 'bg-slate-950/60 border-slate-800/60 opacity-60'
                   : 'bg-slate-900/90 border-slate-800 text-white shadow-sm'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-3 w-36">
                 {/* On / Off Toggle Switch */}
                 <button
                   type="button"
                   onClick={() => handleToggleClosed(i)}
-                  className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase transition-all ${
-                    h.is_closed 
-                      ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
+                  className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase transition-all ${h.is_closed
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/30'
                       : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                  }`}
+                    }`}
                 >
                   {h.is_closed ? 'OFF (Closed)' : 'ON (Open)'}
                 </button>
                 <span className="font-bold text-white text-xs">{days[h.day_of_week]}</span>
               </div>
-              
+
               {/* Hours Selector */}
               <div className="flex items-center gap-2">
                 <input
@@ -1781,11 +1774,10 @@ function ShopReservationsManager({ reservations, onRefresh }) {
                     </td>
                     <td className="p-4 font-bold text-amber-400">₱{r.total_price}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        r.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' :
-                        r.status === 'completed' ? 'bg-blue-500/20 text-blue-400' :
-                        r.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-slate-800 text-slate-300'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${r.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' :
+                          r.status === 'completed' ? 'bg-blue-500/20 text-blue-400' :
+                            r.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-slate-800 text-slate-300'
+                        }`}>
                         {r.status}
                       </span>
                     </td>
@@ -1886,13 +1878,13 @@ function ShopReviewsManager({ reviews, onRefresh }) {
 }
 
 function ShopBillingManager({ billing = {}, onRefresh }) {
-  const { 
-    active_subscription = null, 
-    history = [], 
-    payments = [], 
-    invoices = [], 
-    payment_instructions = {}, 
-    shop_status = 'pending_payment' 
+  const {
+    active_subscription = null,
+    history = [],
+    payments = [],
+    invoices = [],
+    payment_instructions = {},
+    shop_status = 'pending_payment'
   } = (billing || {});
 
   const monthlyPrice = Number(payment_instructions?.monthly_price) || 350;
@@ -1900,7 +1892,7 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
   const gcashNumber = payment_instructions?.gcash_account_number || '0917-888-2272';
   const mayaName = payment_instructions?.maya_account_name || 'BarberMap Inc.';
   const mayaNumber = payment_instructions?.maya_account_number || '0918-999-3383';
-  
+
   const [payMethod, setPayMethod] = useState('GCash');
   const [refNumber, setRefNumber] = useState('');
   const [receiptFile, setReceiptFile] = useState(null);
@@ -1953,7 +1945,7 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
 
   return (
     <div className="space-y-8 max-w-4xl">
-      
+
       {/* Header Plan Card */}
       <div className="p-6 rounded-2xl bg-gradient-to-r from-[#171b26] to-[#12151e] border border-amber-500/30 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -1965,11 +1957,10 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
         </div>
 
         <div className="text-left sm:text-right">
-          <span className={`px-3 py-1 rounded-full text-xs font-black uppercase ${
-            shop_status === 'active' 
+          <span className={`px-3 py-1 rounded-full text-xs font-black uppercase ${shop_status === 'active'
               ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
               : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-          }`}>
+            }`}>
             {(shop_status || 'pending_payment').replace('_', ' ')}
           </span>
           {active_subscription && (
@@ -1989,7 +1980,7 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
 
       {/* Payment Step Instructions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
+
         {/* Step 1: Receiving Details */}
         <div className="bg-[#131720] rounded-2xl p-6 border border-slate-800/80 space-y-4 shadow-lg">
           <div className="flex items-center gap-2">
@@ -2064,7 +2055,7 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">Attach Receipt Screenshot Image</label>
-              
+
               <label className="border-2 border-dashed border-slate-700 hover:border-amber-500/50 bg-slate-900/60 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-all">
                 <input
                   type="file"
@@ -2075,9 +2066,9 @@ function ShopBillingManager({ billing = {}, onRefresh }) {
                 />
                 {receiptPreview ? (
                   <div className="flex flex-col items-center space-y-2">
-                    <img 
-                      src={receiptPreview} 
-                      alt="Receipt Preview" 
+                    <img
+                      src={receiptPreview}
+                      alt="Receipt Preview"
                       className="h-28 max-w-full object-contain rounded-lg border border-slate-700 shadow"
                     />
                     <span className="text-[11px] text-amber-400 font-semibold underline">Click to change attached receipt</span>
