@@ -37,8 +37,8 @@ export default function Navbar({ currentRoute, navigate }) {
             </div>
           </div>
 
-          {/* CENTER: Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-1.5">
+          {/* CENTER: Desktop Nav Links (Visible on large screens >= 1024px) */}
+          <nav className="hidden lg:flex items-center gap-1.5">
             <button
               onClick={() => navigate('/')}
               className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
@@ -72,8 +72,8 @@ export default function Navbar({ currentRoute, navigate }) {
             )}
           </nav>
 
-          {/* RIGHT END: Theme, User Info, Notifications & Logout */}
-          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          {/* RIGHT END: Desktop Actions (>= 1024px) */}
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
@@ -160,7 +160,7 @@ export default function Navbar({ currentRoute, navigate }) {
                   </button>
                 )}
 
-                {/* Profile Pill & Logout (Far Right) */}
+                {/* Profile Pill & Logout */}
                 <div className="flex items-center gap-2 pl-3 border-l border-slate-800">
                   <div className="text-right">
                     <p className="text-xs font-semibold text-white leading-none">{user.name}</p>
@@ -195,8 +195,8 @@ export default function Navbar({ currentRoute, navigate }) {
             )}
           </div>
 
-          {/* Mobile Menu & Theme */}
-          <div className="md:hidden flex items-center gap-1.5">
+          {/* Mobile & Tablet (< 1024px) Menu & Theme Bar */}
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={toggleTheme}
               className="p-2 rounded-xl bg-slate-800/80 text-amber-400 border border-slate-700/60 flex items-center justify-center transition-colors"
@@ -204,6 +204,19 @@ export default function Navbar({ currentRoute, navigate }) {
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
+            {user && (
+              <button
+                onClick={() => navigate(user.role === 'shop_owner' ? '/owner/dashboard' : '/admin/dashboard')}
+                className={`px-3 py-1.5 rounded-xl font-bold text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5 ${
+                  user.role === 'shop_owner'
+                    ? 'bg-amber-500 text-slate-950'
+                    : 'bg-rose-600 text-white'
+                }`}
+              >
+                {user.role === 'shop_owner' ? <Store className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
+                <span>Portal</span>
+              </button>
+            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white border border-slate-700/60 flex items-center justify-center transition-colors"
@@ -214,9 +227,9 @@ export default function Navbar({ currentRoute, navigate }) {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile & Tablet Slide Drawer (< 1024px) */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#11141a] border-b border-slate-800 px-4 py-4 space-y-3">
+        <div className="lg:hidden bg-[#11141a] border-b border-slate-800 px-4 py-4 space-y-3 shadow-2xl animate-in slide-in-from-top-2">
           <button
             onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
             className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center justify-between"
