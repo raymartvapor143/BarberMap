@@ -153,10 +153,11 @@ export default function Navbar({ currentRoute, navigate }) {
                 {user.role && ['super_admin', 'admin', 'moderator', 'payment_admin'].includes(user.role) && (
                   <button
                     onClick={() => navigate('/admin/dashboard')}
-                    className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-rose-500 to-amber-600 hover:from-rose-400 hover:to-amber-500 text-white font-bold text-xs tracking-tight shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
+                    className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-rose-500 to-amber-600 hover:from-rose-400 hover:to-amber-500 !text-white font-bold text-xs tracking-tight shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
+                    style={{ color: '#ffffff' }}
                   >
-                    <Shield className="w-3.5 h-3.5" />
-                    Admin Panel
+                    <Shield className="w-3.5 h-3.5 text-white" style={{ color: '#ffffff' }} />
+                    <span className="text-white font-bold" style={{ color: '#ffffff' }}>Admin Panel</span>
                   </button>
                 )}
 
@@ -210,11 +211,12 @@ export default function Navbar({ currentRoute, navigate }) {
                 className={`px-3 py-1.5 rounded-xl font-bold text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5 ${
                   user.role === 'shop_owner'
                     ? 'bg-amber-500 text-slate-950'
-                    : 'bg-rose-600 text-white'
+                    : 'bg-rose-600 !text-white'
                 }`}
+                style={user.role !== 'shop_owner' ? { color: '#ffffff' } : {}}
               >
-                {user.role === 'shop_owner' ? <Store className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
-                <span>Portal</span>
+                {user.role === 'shop_owner' ? <Store className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5 text-white" style={{ color: '#ffffff' }} />}
+                <span style={user.role !== 'shop_owner' ? { color: '#ffffff' } : {}}>Portal</span>
               </button>
             )}
             <button
