@@ -54,10 +54,12 @@ export default function HomeMap({ navigate }) {
   // Collapse & Responsive States
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [mobileViewMode, setMobileViewMode] = useState('split'); // 'split', 'map', 'list'
+  const [locatingUser, setLocatingUser] = useState(false);
 
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
+  const userMarkerRef = useRef(null);
 
   const fetchShops = async () => {
     setLoading(true);
@@ -232,6 +234,75 @@ export default function HomeMap({ navigate }) {
     if (window.innerWidth < 768 && mobileViewMode === 'list') {
       setMobileViewMode('split');
     }
+  };
+
+  // Locate User GPS Position
+  const handleFindMyLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    setLocatingUser(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocatingUser(false);
+        const { latitude, longitude } = position.coords;
+        const map = mapInstanceRef.current;
+        if (!map) return;
+
+        // Fly to user coordinates
+        map.flyTo([latitude, longitude], 15, { duration: 1.5 });
+
+        // Add or update User Live Location Marker
+        if (userMarkerRef.current) {
+          userMarkerRef.current.setLatLng([latitude, longitude]);
+        } else {
+          const userIcon = L.divIcon({
+            className: 'user-live-location-marker',
+            html: `
+              <div style="position: relative; width: 22px; height: 22px;">
+                <div style="
+                  position: absolute;
+                  inset: -6px;
+                  background: rgba(59, 130, 246, 0.35);
+                  border-radius: 50%;
+                  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+                "></div>
+                <div style="
+                  position: relative;
+                  width: 22px;
+                  height: 22px;
+                  background: #2563eb;
+                  border: 3px solid #ffffff;
+                  border-radius: 50%;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+                "></div>
+              </div>
+            `,
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+          });
+
+          const uMarker = L.marker([latitude, longitude], { icon: userIcon }).addTo(map);
+          uMarker.bindPopup('<b style="color:#0f172a; font-size:12px;">📍 You Are Here</b>');
+          userMarkerRef.current = uMarker;
+        }
+      },
+      (error) => {
+        setLocatingUser(false);
+        if (error.code === error.PERMISSION_DENIED) {
+          alert('Location permission was denied. Please allow location access in your browser settings to locate yourself on the map.');
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          alert('Location information is currently unavailable.');
+        } else if (error.code === error.TIMEOUT) {
+          alert('Location request timed out. Please try again.');
+        } else {
+          alert('Unable to retrieve your location.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
   };
 
   return (
@@ -478,7 +549,7 @@ export default function HomeMap({ navigate }) {
             ? 'hidden' 
             : mobileViewMode === 'map' 
               ? 'h-full' 
-              : 'h-[55%] md:h-full'
+              : 'h-[50%] md:h-full'
         } z-10 flex flex-col min-h-0`}
       >
         <div 
@@ -502,7 +573,7 @@ export default function HomeMap({ navigate }) {
           </div>
         )}
 
-        {/* Mobile Floating 'Show List / Split' Button when in Full Map mode (Positioned clearly without colliding with zoom controls) */}
+        {/* Mobile Floating 'Show List / Split' Button when in Full Map mode */}
         {mobileViewMode === 'map' && (
           <div className="md:hidden absolute top-3 left-14 z-[1000] flex items-center">
             <button
@@ -515,18 +586,17 @@ export default function HomeMap({ navigate }) {
           </div>
         )}
 
-        {/* Floating Quick Action Widget (Top Right) */}
+        {/* Floating GPS Geolocation Action Button (Top Right) */}
         <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-2">
           <button
-            onClick={() => {
-              if (mapInstanceRef.current) {
-                mapInstanceRef.current.flyTo([14.5995, 120.9842], 12, { duration: 1 });
-              }
-            }}
-            className="p-2.5 rounded-xl bg-[#161b26] hover:bg-[#1f2636] text-slate-200 border border-slate-700/80 shadow-xl transition-all"
-            title="Reset Map View to Manila"
+            onClick={handleFindMyLocation}
+            disabled={locatingUser}
+            className={`p-2.5 rounded-xl bg-[#161b26] hover:bg-[#1f2636] text-slate-200 border border-slate-700/80 shadow-xl transition-all flex items-center justify-center ${
+              locatingUser ? 'animate-pulse ring-2 ring-amber-500' : ''
+            }`}
+            title="Locate My Current Position (Turn on GPS)"
           >
-            <Navigation className="w-4 h-4 text-amber-400" />
+            <Navigation className={`w-4 h-4 ${locatingUser ? 'text-blue-400 animate-spin' : 'text-amber-400'}`} />
           </button>
         </div>
       </div>
