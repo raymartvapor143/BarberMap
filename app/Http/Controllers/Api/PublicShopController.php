@@ -8,6 +8,7 @@ use App\Models\Review;
 use App\Models\ContentReport;
 use App\Models\Reservation;
 use App\Models\BillingSetting;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -231,6 +232,24 @@ class PublicShopController extends Controller
             'maya_account_name' => BillingSetting::get('maya_account_name', 'BarberMap Admin'),
             'maya_account_number' => BillingSetting::get('maya_account_number', '0918-987-6543'),
             'maya_enabled' => (bool) BillingSetting::get('maya_enabled', true),
+        ]);
+    }
+
+    /**
+     * Fetch exact invoice data by invoice number with relations
+     */
+    public function getInvoiceByNumber(string $number)
+    {
+        $invoice = Invoice::with(['shop.location', 'user', 'payment'])
+            ->where('invoice_number', $number)
+            ->first();
+
+        if (!$invoice) {
+            return response()->json(['message' => 'Invoice not found.'], 404);
+        }
+
+        return response()->json([
+            'invoice' => $invoice
         ]);
     }
 

@@ -24,6 +24,9 @@ Route::prefix('public')->group(function () {
     Route::get('/shop/{id}/available-slots', [ReservationController::class, 'getAvailableSlots']);
     Route::post('/shop/{id}/reserve', [ReservationController::class, 'makeReservation']);
     
+    // Invoices (Publicly verifiable / printable)
+    Route::get('/invoice/{number}', [PublicShopController::class, 'getInvoiceByNumber']);
+    
     // Stored media streamer
     Route::get('/media/{folder}/{filename}', [PublicShopController::class, 'getMedia']);
 });
