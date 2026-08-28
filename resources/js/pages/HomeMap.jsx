@@ -502,6 +502,19 @@ export default function HomeMap({ navigate }) {
           </div>
         )}
 
+        {/* Mobile Floating Floating 'Show List / Split' Button when in Full Map mode */}
+        {mobileViewMode === 'map' && (
+          <div className="md:hidden absolute top-4 left-4 z-[1000] flex items-center">
+            <button
+              onClick={() => setMobileViewMode('split')}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#161b26]/95 backdrop-blur-md text-white border border-slate-700/80 shadow-2xl font-bold text-xs hover:bg-slate-800 transition-all"
+            >
+              <List className="w-4 h-4 text-amber-400" />
+              <span>Show List ({shops.length})</span>
+            </button>
+          </div>
+        )}
+
         {/* Floating Quick Action Widget (Top Right) */}
         <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
           <button
