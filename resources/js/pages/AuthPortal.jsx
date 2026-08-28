@@ -75,19 +75,19 @@ export default function AuthPortal({ initialMode = 'login', navigate }) {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-8 bg-[#090b0f] relative overflow-hidden">
+    <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center p-3 sm:p-6 md:p-8 bg-[#090b0f] relative overflow-y-auto overflow-x-hidden my-auto">
       
       {/* Background glowing gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <div className="max-w-xl w-full bg-[#131720]/90 backdrop-blur-xl border border-slate-800/90 rounded-3xl p-8 sm:p-10 shadow-2xl relative z-10">
+      <div className="max-w-xl w-full bg-[#131720]/90 backdrop-blur-xl border border-slate-800/90 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl relative z-10 my-4 sm:my-8">
         
         {/* Header */}
-        <div className="text-center space-y-2 mb-8">
+        <div className="text-center space-y-2 mb-6 sm:mb-8">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/25">
             <Scissors className="w-6 h-6 text-slate-950 stroke-[2.5]" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
             {isLogin ? 'Welcome Back to BarberMap' : 'Create Your BarberMap Account'}
           </h2>
           <p className="text-xs text-slate-400">
