@@ -112,7 +112,13 @@ export default function InvoiceView({ invoiceNumber, navigate }) {
       {/* Action Bar */}
       <div className="max-w-3xl w-full flex items-center justify-between mb-6 print:hidden">
         <button
-          onClick={() => navigate(-1 || '/')}
+          onClick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              navigate('/');
+            }
+          }}
           className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Back

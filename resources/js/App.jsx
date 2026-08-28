@@ -106,49 +106,56 @@ function MainApp() {
   }, []);
 
   const navigate = (path) => {
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
+    if (typeof path === 'number') {
+      window.history.go(path);
+      return;
+    }
+    const targetPath = typeof path === 'string' ? path : '/';
+    window.history.pushState({}, '', targetPath);
+    setCurrentPath(targetPath);
     window.scrollTo(0, 0);
   };
 
   // Route parsing
   const renderRoute = () => {
-    if (currentPath === '/') {
+    const path = typeof currentPath === 'string' ? currentPath : '/';
+
+    if (path === '/') {
       return <HomeMap navigate={navigate} />;
     }
 
-    if (currentPath.startsWith('/shop/')) {
-      const slug = currentPath.replace('/shop/', '');
+    if (path.startsWith('/shop/')) {
+      const slug = path.replace('/shop/', '');
       return <ShopLanding slug={slug} navigate={navigate} />;
     }
 
-    if (currentPath.startsWith('/invoice/')) {
-      const number = currentPath.replace('/invoice/', '');
+    if (path.startsWith('/invoice/')) {
+      const number = path.replace('/invoice/', '');
       return <InvoiceView invoiceNumber={number} navigate={navigate} />;
     }
 
-    if (currentPath === '/login') {
+    if (path === '/login') {
       return <AuthPortal initialMode="login" navigate={navigate} />;
     }
 
-    if (currentPath === '/register' || currentPath === '/for-barbers') {
+    if (path === '/register' || path === '/for-barbers') {
       return <AuthPortal initialMode="register" navigate={navigate} />;
     }
 
-    if (currentPath === '/about') {
+    if (path === '/about') {
       return <AboutPricingPage navigate={navigate} />;
     }
 
-    if (currentPath.startsWith('/owner/')) {
-      const subtab = currentPath.replace('/owner/', '') || 'dashboard';
+    if (path.startsWith('/owner/')) {
+      const subtab = path.replace('/owner/', '') || 'dashboard';
       if (!user) {
         return <AuthPortal initialMode="login" navigate={navigate} />;
       }
       return <OwnerDashboard tab={subtab} navigate={navigate} />;
     }
 
-    if (currentPath.startsWith('/admin/')) {
-      const subtab = currentPath.replace('/admin/', '') || 'dashboard';
+    if (path.startsWith('/admin/')) {
+      const subtab = path.replace('/admin/', '') || 'dashboard';
       if (!user) {
         return <AuthPortal initialMode="login" navigate={navigate} />;
       }
@@ -159,9 +166,11 @@ function MainApp() {
     return <HomeMap navigate={navigate} />;
   };
 
+  const safeCurrentPath = typeof currentPath === 'string' ? currentPath : '/';
+
   return (
     <div className="h-screen w-full flex flex-col bg-[#0a0c10] text-slate-100 selection:bg-amber-500/30 selection:text-amber-300 overflow-x-hidden">
-      <Navbar currentRoute={currentPath} navigate={navigate} />
+      <Navbar currentRoute={safeCurrentPath} navigate={navigate} />
       <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative min-h-0">
         {renderRoute()}
       </main>
