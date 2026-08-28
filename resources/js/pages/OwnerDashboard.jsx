@@ -163,13 +163,15 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                     setMobileMenuOpen(false);
                   }}
                   title={sidebarCollapsed ? item.label : undefined}
-                  className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${isActive
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                  className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${
+                    isActive
+                      ? 'bg-amber-600 !text-white font-bold shadow-md shadow-amber-600/25'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                    }`}
+                  }`}
+                  style={isActive ? { color: '#ffffff' } : {}}
                 >
-                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-amber-400'}`} />
-                  {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? '!text-white' : 'text-slate-400 group-hover:text-amber-400'}`} style={isActive ? { color: '#ffffff' } : {}} />
+                  {!sidebarCollapsed && <span className="truncate" style={isActive ? { color: '#ffffff' } : {}}>{item.label}</span>}
                 </button>
               );
             })}
