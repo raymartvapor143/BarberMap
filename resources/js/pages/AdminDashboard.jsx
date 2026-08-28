@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { 
   Shield, CheckCircle2, XCircle, AlertCircle, Store, 
   CreditCard, Settings, Users, MapPin, Flag, FileText, 
-  History, DollarSign, Eye, Search, Check, X, RefreshCw
+  History, DollarSign, Eye, Search, Check, X, RefreshCw,
+  ChevronRight, ChevronLeft
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
