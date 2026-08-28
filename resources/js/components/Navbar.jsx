@@ -23,17 +23,17 @@ export default function Navbar({ currentRoute, navigate }) {
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 w-full">
           
-          {/* LEFT END: Logo & Brand */}
-          <div className="flex items-center gap-3 cursor-pointer flex-shrink-0" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-xl tracking-tighter">
-              <Scissors className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+          {/* LEFT END: Logo & Brand (Minimized & refined) */}
+          <div className="flex items-center gap-2.5 cursor-pointer flex-shrink-0" onClick={() => navigate('/')}>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 text-slate-950 flex-shrink-0">
+              <Scissors className="w-4 h-4 text-slate-950 stroke-[2.5]" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-xl tracking-tight text-white">Barber<span className="text-amber-400">Map</span></span>
-                <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">PH</span>
+              <div className="flex items-center gap-1">
+                <span className="font-extrabold text-base tracking-tight text-white">Barber<span className="text-amber-400">Map</span></span>
+                <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">PH</span>
               </div>
-              <p className="text-[10px] text-slate-400 font-medium tracking-wide">Map-First Discovery & Booking</p>
+              <p className="text-[9px] text-slate-400 font-medium tracking-normal hidden sm:block">Map Discovery & Booking</p>
             </div>
           </div>
 
