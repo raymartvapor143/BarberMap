@@ -4,7 +4,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { 
   Search, Star, MapPin, Scissors, Clock, ArrowRight, 
-  ExternalLink, Sparkles, Filter, Navigation, CheckCircle2 
+  ExternalLink, Sparkles, Filter, Navigation, CheckCircle2,
+  ChevronLeft, ChevronRight, PanelLeftClose, PanelLeftOpen,
+  SlidersHorizontal, Layers, X, List, Map
 } from 'lucide-react';
 
 // Custom Map Marker Icon Generator
@@ -15,7 +17,7 @@ const createBarberIcon = (isSelected = false) => {
       <div style="
         width: 38px;
         height: 38px;
-        background: ${isSelected ? '#f59e0b' : '#161a22'};
+        background: ${isSelected ? '#f59e0b' : '#161b26'};
         border: 2px solid ${isSelected ? '#ffffff' : '#f59e0b'};
         border-radius: 50%;
         display: flex;
@@ -48,6 +50,10 @@ export default function HomeMap({ navigate }) {
   const [search, setSearch] = useState('');
   const [selectedCity, setSelectedCity] = useState('all');
   const [selectedShop, setSelectedShop] = useState(null);
+  
+  // Collapse & Responsive States
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [mobileViewMode, setMobileViewMode] = useState('split'); // 'split', 'map', 'list'
 
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
@@ -80,6 +86,25 @@ export default function HomeMap({ navigate }) {
     return () => clearTimeout(timer);
   }, [search, selectedCity]);
 
+  // Invalidate and trigger smooth Leaflet map resize
+  const triggerMapResize = () => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.invalidateSize();
+    }
+  };
+
+  // Sync map resize on sidebar collapse toggle
+  useEffect(() => {
+    const t1 = setTimeout(triggerMapResize, 50);
+    const t2 = setTimeout(triggerMapResize, 200);
+    const t3 = setTimeout(triggerMapResize, 450);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [isSidebarCollapsed, mobileViewMode]);
+
   // Initialize Leaflet Map Instance
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -99,26 +124,18 @@ export default function HomeMap({ navigate }) {
 
       mapInstanceRef.current = map;
 
-      // Invalidate size immediately and at staggered intervals to prevent grey/black gaps
-      const triggerResize = () => {
-        if (mapInstanceRef.current) {
-          mapInstanceRef.current.invalidateSize();
-        }
-      };
+      // Invalidate size immediately and at staggered intervals
+      triggerMapResize();
+      const t1 = setTimeout(triggerMapResize, 100);
+      const t2 = setTimeout(triggerMapResize, 300);
+      const t3 = setTimeout(triggerMapResize, 800);
 
-      triggerResize();
-      const t1 = setTimeout(triggerResize, 100);
-      const t2 = setTimeout(triggerResize, 300);
-      const t3 = setTimeout(triggerResize, 800);
+      window.addEventListener('resize', triggerMapResize);
 
-      // Listen for window resize
-      window.addEventListener('resize', triggerResize);
-
-      // Observe map container resize dynamically
       let resizeObserver;
       if (window.ResizeObserver && mapContainerRef.current) {
         resizeObserver = new ResizeObserver(() => {
-          triggerResize();
+          triggerMapResize();
         });
         resizeObserver.observe(mapContainerRef.current);
       }
@@ -127,7 +144,7 @@ export default function HomeMap({ navigate }) {
         clearTimeout(t1);
         clearTimeout(t2);
         clearTimeout(t3);
-        window.removeEventListener('resize', triggerResize);
+        window.removeEventListener('resize', triggerMapResize);
         if (resizeObserver) {
           resizeObserver.disconnect();
         }
@@ -158,10 +175,10 @@ export default function HomeMap({ navigate }) {
 
       // Popup template
       const popupHtml = `
-        <div style="width: 280px; font-family: inherit; color: #f1f5f9; background: #161a22; border-radius: 12px; overflow: hidden; padding: 0;">
+        <div style="width: 280px; font-family: inherit; color: #f1f5f9; background: #161b26; border-radius: 12px; overflow: hidden; padding: 0;">
           <div style="height: 110px; width: 100%; position: relative; background: #0f172a;">
             <img src="${shop.cover_url || 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80'}" style="width: 100%; height: 100%; object-fit: cover;" />
-            <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #f59e0b; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 6px;">
+            <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.85); color: #f59e0b; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(245,158,11,0.3);">
               ₱${shop.starting_price} starting
             </div>
           </div>
@@ -202,9 +219,7 @@ export default function HomeMap({ navigate }) {
       }
     }
 
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 150);
+    setTimeout(triggerMapResize, 150);
   }, [shops, selectedShop]);
 
   const handleSelectShop = (shop) => {
@@ -213,26 +228,92 @@ export default function HomeMap({ navigate }) {
     if (map && shop.location && shop.location.latitude && shop.location.longitude) {
       map.flyTo([shop.location.latitude, shop.location.longitude], 15, { duration: 1.2 });
     }
+    // On mobile, if in list mode, switch to split/map view to see pin
+    if (window.innerWidth < 768 && mobileViewMode === 'list') {
+      setMobileViewMode('split');
+    }
   };
 
   return (
-    <div className="relative flex-1 flex flex-col md:flex-row h-full w-full overflow-hidden bg-[#0a0c10]">
+    <div className="relative flex-1 flex flex-col md:flex-row h-full w-full overflow-hidden bg-[#0b0e14]">
       
+      {/* MOBILE FLOATING VIEW SWITCHER (List / Split / Map) */}
+      <div className="md:hidden absolute top-3 left-1/2 -translate-x-1/2 z-[1000] flex items-center bg-[#161b26]/95 backdrop-blur-md p-1 rounded-full border border-slate-700/80 shadow-2xl">
+        <button
+          onClick={() => setMobileViewMode('list')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+            mobileViewMode === 'list' 
+              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <List className="w-3.5 h-3.5" />
+          <span>List ({shops.length})</span>
+        </button>
+        <button
+          onClick={() => setMobileViewMode('split')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+            mobileViewMode === 'split' 
+              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Layers className="w-3.5 h-3.5" />
+          <span>Split</span>
+        </button>
+        <button
+          onClick={() => setMobileViewMode('map')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+            mobileViewMode === 'map' 
+              ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25' 
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Map className="w-3.5 h-3.5" />
+          <span>Map</span>
+        </button>
+      </div>
+
       {/* LEFT SIDEBAR: Search, Filters & Active Discovery List */}
-      <div className="w-full md:w-[420px] lg:w-[460px] flex-shrink-0 bg-[#0e1117] border-r border-slate-800/80 flex flex-col z-30 shadow-2xl h-[40%] md:h-full overflow-hidden">
-        
+      <div 
+        className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col z-30 shadow-2xl transition-all duration-300 ease-in-out ${
+          // Desktop sidebar collapse / expand
+          isSidebarCollapsed 
+            ? 'hidden md:flex md:w-0 md:border-r-0 overflow-hidden opacity-0 pointer-events-none' 
+            : 'flex md:w-[380px] lg:w-[440px] xl:w-[480px] opacity-100'
+        } ${
+          // Mobile layout modes
+          mobileViewMode === 'map'
+            ? 'hidden'
+            : mobileViewMode === 'list'
+              ? 'w-full h-full'
+              : 'w-full h-[45%] md:h-full'
+        } overflow-hidden flex-shrink-0`}
+      >
         {/* Search & Header */}
-        <div className="p-4 border-b border-slate-800/80 space-y-3 bg-[#11141c] flex-shrink-0">
+        <div className="p-4 border-b border-slate-800/80 space-y-3 bg-[#11151f] flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                Live Active Shops ({shops.length})
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+                Live Barber Shops ({shops.length})
               </span>
             </div>
-            <span className="text-[11px] text-amber-400/90 font-semibold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-              Verified Listings Only
-            </span>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                Verified Only
+              </span>
+
+              {/* Desktop Sidebar Collapse Toggle Button */}
+              <button
+                onClick={() => setIsSidebarCollapsed(true)}
+                className="hidden md:flex p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+                title="Collapse Sidebar for Full Map"
+              >
+                <PanelLeftClose className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Search Input */}
@@ -243,7 +324,7 @@ export default function HomeMap({ navigate }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search shop name, barangay, city..."
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-slate-700/70 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all shadow-inner"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#161b26] border border-slate-700/70 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all shadow-inner"
             />
             {search && (
               <button 
@@ -255,7 +336,7 @@ export default function HomeMap({ navigate }) {
             )}
           </div>
 
-          {/* Quick City Filters (Dynamically based on registered & active verified shops) */}
+          {/* Quick City Filters */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
             <button
               onClick={() => setSelectedCity('all')}
@@ -321,7 +402,7 @@ export default function HomeMap({ navigate }) {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
-                      <div className="absolute bottom-1 right-1 bg-black/80 backdrop-blur-sm px-1 rounded text-[9px] font-bold text-amber-400">
+                      <div className="absolute bottom-1 right-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-bold text-amber-400">
                         ₱{Math.round(shop.starting_price)}
                       </div>
                     </div>
@@ -388,8 +469,16 @@ export default function HomeMap({ navigate }) {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Interactive Fullscreen Leaflet Discovery Map with ref */}
-      <div className="flex-1 relative w-full h-[60%] md:h-full z-10 flex flex-col min-h-0">
+      {/* RIGHT SIDE: Interactive Fullscreen Leaflet Discovery Map */}
+      <div 
+        className={`flex-1 relative w-full ${
+          mobileViewMode === 'list' 
+            ? 'hidden' 
+            : mobileViewMode === 'map' 
+              ? 'h-full' 
+              : 'h-[55%] md:h-full'
+        } z-10 flex flex-col min-h-0`}
+      >
         <div 
           ref={mapContainerRef} 
           id="leaflet-main-map"
@@ -397,15 +486,29 @@ export default function HomeMap({ navigate }) {
           style={{ width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#11141a' }}
         />
 
-        {/* Floating Quick Action Widget */}
-        <div className="absolute top-4 right-4 z-[1000] hidden sm:flex flex-col gap-2">
+        {/* Floating Sidebar Re-Open Button when Collapsed (Desktop) */}
+        {isSidebarCollapsed && (
+          <div className="absolute top-4 left-4 z-[1000] hidden md:flex items-center">
+            <button
+              onClick={() => setIsSidebarCollapsed(false)}
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#161b26]/95 backdrop-blur-md hover:bg-amber-500 hover:text-slate-950 text-slate-200 border border-slate-700/80 shadow-2xl font-bold text-xs transition-all animate-in fade-in"
+              title="Expand Barber Discovery Sidebar"
+            >
+              <PanelLeftOpen className="w-4 h-4 text-amber-400" />
+              <span>Show Barber List ({shops.length})</span>
+            </button>
+          </div>
+        )}
+
+        {/* Floating Quick Action Widget (Top Right) */}
+        <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
           <button
             onClick={() => {
               if (mapInstanceRef.current) {
                 mapInstanceRef.current.flyTo([14.5995, 120.9842], 12, { duration: 1 });
               }
             }}
-            className="p-2.5 rounded-xl bg-[#161a22]/90 backdrop-blur-md hover:bg-slate-800 text-slate-200 border border-slate-700/80 shadow-xl transition-all"
+            className="p-2.5 rounded-xl bg-[#161b26]/90 backdrop-blur-md hover:bg-slate-800 text-slate-200 border border-slate-700/80 shadow-xl transition-all"
             title="Reset Map View to Manila"
           >
             <Navigation className="w-4 h-4 text-amber-400" />

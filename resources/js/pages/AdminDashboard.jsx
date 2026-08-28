@@ -67,15 +67,80 @@ export default function AdminDashboard({ tab = 'dashboard', navigate }) {
     fetchAdminData();
   }, [activeTab]);
 
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#090b0f] text-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#0b0e14] text-slate-100 flex flex-col md:flex-row relative">
       
-      {/* ADMIN SIDEBAR */}
-      <aside className="w-full md:w-64 bg-[#0e1117] border-r border-slate-800/80 p-4 flex flex-col justify-between flex-shrink-0">
-        <div className="space-y-6">
-          <div className="p-3 bg-gradient-to-r from-rose-950/40 to-slate-900 rounded-2xl border border-rose-500/30">
-            <span className="text-[10px] text-rose-400 font-bold uppercase tracking-wider">Super Admin Area</span>
-            <h3 className="text-xs font-bold text-white truncate">BarberMap Control Center</h3>
+      {/* MOBILE ADMIN TOP BAR */}
+      <div className="md:hidden bg-[#0e1117] border-b border-slate-800/80 p-3.5 flex items-center justify-between z-30">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
+            <Shield className="w-4 h-4" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-xs font-bold text-white truncate">Super Admin Control</h2>
+            <span className="text-[10px] text-rose-400 font-semibold uppercase">{activeTab}</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-2 rounded-xl bg-[#161b26] border border-slate-700/80 text-rose-400 font-bold text-xs flex items-center gap-1.5 shadow-md"
+        >
+          <span>Admin Menu</span>
+          <ChevronRight className={`w-3.5 h-3.5 transition-transform ${mobileMenuOpen ? 'rotate-90' : ''}`} />
+        </button>
+      </div>
+
+      {/* MOBILE OVERLAY BACKDROP */}
+      {mobileMenuOpen && (
+        <div 
+          onClick={() => setMobileMenuOpen(false)}
+          className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 animate-in fade-in"
+        />
+      )}
+
+      {/* ADMIN SIDEBAR (Desktop: Collapsible Mini-rail / Full | Mobile: Slide-over Drawer) */}
+      <aside 
+        className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col justify-between flex-shrink-0 z-40 transition-all duration-300 ease-in-out ${
+          // Desktop Width: 72px when collapsed, 260px when expanded
+          sidebarCollapsed ? 'md:w-[72px] md:p-3' : 'md:w-64 md:p-4'
+        } ${
+          // Mobile responsive slide-over drawer
+          mobileMenuOpen 
+            ? 'fixed inset-y-0 left-0 w-72 p-4 shadow-2xl flex translate-x-0' 
+            : 'hidden md:flex'
+        }`}
+      >
+        <div className="space-y-4">
+          
+          {/* Header Tag */}
+          <div className={`p-3 bg-[#11151f] rounded-2xl border border-slate-800 flex items-center ${sidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+            {!sidebarCollapsed && (
+              <div className="min-w-0">
+                <span className="text-[10px] text-rose-400 font-bold uppercase tracking-wider">Super Admin Area</span>
+                <h3 className="text-xs font-bold text-white truncate">BarberMap Control Center</h3>
+              </div>
+            )}
+
+            {/* Desktop Collapse / Expand Toggle Button */}
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="hidden md:flex p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-rose-400 transition-colors"
+              title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+              {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronRight className="w-4 h-4 rotate-180" />}
+            </button>
+
+            {/* Mobile close button */}
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden p-1 text-slate-400 hover:text-white"
+            >
+              ✕
+            </button>
           </div>
 
           <nav className="space-y-1">
@@ -85,28 +150,34 @@ export default function AdminDashboard({ tab = 'dashboard', navigate }) {
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  title={sidebarCollapsed ? item.label : undefined}
+                  className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${
                     isActive
                       ? 'bg-rose-600 text-white font-bold shadow-md shadow-rose-600/20'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                  <span>{item.label}</span>
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-rose-400'}`} />
+                  {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
                 </button>
               );
             })}
           </nav>
         </div>
 
-        <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500">
-          <p>Logged in as <strong className="text-slate-300">{user?.name}</strong></p>
-        </div>
+        {!sidebarCollapsed && (
+          <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500">
+            <p>Logged in as <strong className="text-slate-300">{user?.name}</strong></p>
+          </div>
+        )}
       </aside>
 
       {/* MAIN ADMIN CONTENT */}
-      <main className="flex-1 p-4 sm:p-8 overflow-y-auto max-h-[calc(100vh-4rem)]">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-[calc(100vh-4rem)]">
         
         {message && (
           <div className="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center justify-between">
