@@ -59,10 +59,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post('/api/logout');
-    setUser(null);
-    setNotifications([]);
-    setUnreadCount(0);
+    try {
+      await axios.post('/api/logout');
+    } catch (e) {
+      // Ignore network / rate limiting errors on logout to allow clean client-side exit
+    } finally {
+      setUser(null);
+      setNotifications([]);
+      setUnreadCount(0);
+    }
   };
 
   return (
