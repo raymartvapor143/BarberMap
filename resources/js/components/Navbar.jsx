@@ -229,62 +229,77 @@ export default function Navbar({ currentRoute, navigate }) {
 
       {/* Mobile & Tablet Slide Drawer (< 1024px) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#11141a] border-b border-slate-800 px-4 py-4 space-y-3 shadow-2xl animate-in slide-in-from-top-2">
+        <div className="lg:hidden bg-[#11141a] border-b border-slate-800/80 px-4 py-4 space-y-2.5 shadow-2xl animate-in slide-in-from-top-2">
           <button
             onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center justify-between"
+            className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-all ${
+              currentRoute === '/'
+                ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
           >
-            <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-amber-400" /> Explore Map</span>
+            <span className="flex items-center gap-2.5">
+              <MapPin className="w-4 h-4 text-amber-400" />
+              <span>Explore Map</span>
+            </span>
             <ChevronRight className="w-4 h-4 text-slate-500" />
           </button>
+          
           <button
             onClick={() => { navigate('/about'); setMobileMenuOpen(false); }}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center justify-between"
+            className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-all ${
+              currentRoute === '/about'
+                ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+            }`}
           >
             <span>About & Pricing</span>
             <ChevronRight className="w-4 h-4 text-slate-500" />
           </button>
           
           {user ? (
-            <div className="pt-3 border-t border-slate-800 space-y-2">
-              <div className="px-3 py-1">
+            <div className="pt-3 border-t border-slate-800/80 space-y-2">
+              <div className="px-3.5 py-1">
                 <p className="text-xs font-bold text-white">{user.name}</p>
-                <p className="text-[11px] text-amber-400 capitalize">{user.role.replace('_', ' ')}</p>
+                <p className="text-[10px] text-amber-400 font-semibold capitalize">{user.role.replace('_', ' ')}</p>
               </div>
               {user.role === 'shop_owner' && (
                 <button
                   onClick={() => { navigate('/owner/dashboard'); setMobileMenuOpen(false); }}
-                  className="w-full text-left px-3 py-2 rounded-lg bg-amber-500 text-slate-950 font-bold text-sm"
+                  className="w-full text-left px-3.5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs shadow-md flex items-center gap-2"
                 >
-                  Shop Owner Dashboard
+                  <Store className="w-4 h-4" />
+                  <span>Shop Owner Dashboard</span>
                 </button>
               )}
               {['super_admin', 'admin', 'moderator', 'payment_admin'].includes(user.role) && (
                 <button
                   onClick={() => { navigate('/admin/dashboard'); setMobileMenuOpen(false); }}
-                  className="w-full text-left px-3 py-2 rounded-lg bg-rose-600 text-white font-bold text-sm"
+                  className="w-full text-left px-3.5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs shadow-md flex items-center gap-2"
                 >
-                  Admin Panel
+                  <Shield className="w-4 h-4" />
+                  <span>Admin Panel</span>
                 </button>
               )}
               <button
                 onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                className="w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 text-sm font-medium flex items-center gap-2"
+                className="w-full text-left px-3.5 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 text-xs font-semibold flex items-center gap-2 transition-colors"
               >
-                <LogOut className="w-4 h-4" /> Log out
+                <LogOut className="w-4 h-4" />
+                <span>Log out</span>
               </button>
             </div>
           ) : (
-            <div className="pt-3 border-t border-slate-800 flex flex-col gap-2">
+            <div className="pt-3 border-t border-slate-800/80 flex flex-col gap-2">
               <button
                 onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}
-                className="w-full py-2.5 rounded-lg border border-slate-700 text-center text-sm font-semibold text-white"
+                className="w-full py-2.5 rounded-xl border border-slate-700/80 hover:bg-slate-800/50 text-center text-xs font-bold text-slate-200 transition-colors"
               >
                 Log In
               </button>
               <button
                 onClick={() => { navigate('/register'); setMobileMenuOpen(false); }}
-                className="w-full py-2.5 rounded-lg bg-amber-500 text-center text-sm font-bold text-slate-950"
+                className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-center text-xs font-extrabold text-slate-950 shadow-md shadow-amber-500/20 transition-all"
               >
                 Register Shop / Customer
               </button>
