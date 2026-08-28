@@ -105,7 +105,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
       {mobileMenuOpen && (
         <div 
           onClick={() => setMobileMenuOpen(false)}
-          className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 animate-in fade-in"
+          className="lg:hidden fixed inset-x-0 bottom-0 top-16 bg-black/70 backdrop-blur-sm z-40 animate-in fade-in"
         />
       )}
 
@@ -113,12 +113,12 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
       <aside 
         className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col justify-between flex-shrink-0 z-40 transition-all duration-300 ease-in-out ${
           // Desktop Width: 68px when collapsed, 260px when expanded
-          sidebarCollapsed ? 'md:w-[72px] md:p-3' : 'md:w-64 md:p-4'
+          sidebarCollapsed ? 'lg:w-[72px] lg:p-3' : 'lg:w-64 lg:p-4'
         } ${
-          // Mobile responsive slide-over drawer
+          // Mobile & tablet responsive slide-over drawer
           mobileMenuOpen 
-            ? 'fixed inset-y-0 left-0 w-72 p-4 shadow-2xl flex translate-x-0' 
-            : 'hidden md:flex'
+            ? 'fixed left-0 top-16 bottom-0 w-72 p-4 shadow-2xl flex translate-x-0 z-40' 
+            : 'hidden lg:flex'
         }`}
       >
         <div className="space-y-4">
