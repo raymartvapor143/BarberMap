@@ -239,12 +239,31 @@
   }
 
   /* Text & Heading Colors */
-  .light-theme .text-white,
+  .light-theme .text-white:not(.bg-rose-600 *):not(.bg-rose-500 *):not(.bg-amber-500 *):not(.bg-amber-600 *):not(.bg-emerald-600 *):not(.bg-blue-600 *),
   .light-theme h1,
   .light-theme h2,
   .light-theme h3,
   .light-theme h4 {
     color: #0f172a !important;
+  }
+
+  /* Force Crisp White Text on Vibrant Active Pills & Badges in Light Mode */
+  .light-theme .bg-rose-600,
+  .light-theme .bg-rose-600 *,
+  .light-theme .bg-rose-500,
+  .light-theme .bg-rose-500 *,
+  .light-theme .bg-emerald-600,
+  .light-theme .bg-emerald-600 *,
+  .light-theme .bg-blue-600,
+  .light-theme .bg-blue-600 * {
+    color: #ffffff !important;
+  }
+
+  .light-theme .bg-amber-500,
+  .light-theme .bg-amber-500 *,
+  .light-theme .bg-amber-400,
+  .light-theme .bg-amber-400 * {
+    color: #0b0e14 !important;
   }
 
   .light-theme .text-slate-100,
