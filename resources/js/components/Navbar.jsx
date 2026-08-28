@@ -19,7 +19,7 @@ export default function Navbar({ currentRoute, navigate }) {
   };
 
   return (
-    <header className="sticky top-0 z-[9999] bg-[#0d0f14]/95 backdrop-blur-md border-b border-slate-800/80 transition-all w-full">
+    <header className="sticky top-0 z-[9999] bg-[#0d0f14]/95 backdrop-blur-md border-b border-slate-800/80 transition-all w-full flex-shrink-0">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 w-full">
           
