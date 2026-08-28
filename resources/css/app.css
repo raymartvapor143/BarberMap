@@ -247,11 +247,13 @@
     color: #0f172a !important;
   }
 
-  /* Force Crisp White Text on Vibrant Active Pills & Badges in Light Mode */
+  /* Force Crisp White Text on Vibrant Active Pills, Gradients & Badges in Light Mode */
   .light-theme .bg-rose-600,
   .light-theme .bg-rose-600 *,
   .light-theme .bg-rose-500,
   .light-theme .bg-rose-500 *,
+  .light-theme [class*="from-rose-500"],
+  .light-theme [class*="from-rose-500"] *,
   .light-theme .bg-emerald-600,
   .light-theme .bg-emerald-600 *,
   .light-theme .bg-blue-600,
@@ -262,7 +264,9 @@
   .light-theme .bg-amber-500,
   .light-theme .bg-amber-500 *,
   .light-theme .bg-amber-400,
-  .light-theme .bg-amber-400 * {
+  .light-theme .bg-amber-400 *,
+  .light-theme [class*="from-amber-500"],
+  .light-theme [class*="from-amber-500"] * {
     color: #0b0e14 !important;
   }
 
