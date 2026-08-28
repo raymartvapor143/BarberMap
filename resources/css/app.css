@@ -1,0 +1,366 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-gold: #e5a93c;
+    --color-gold-hover: #d49526;
+    --color-dark-bg: #0d0f12;
+    --color-dark-card: #15181e;
+    --color-dark-border: #232730;
+  }
+
+  body {
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #0b0d11;
+    color: #e2e8f0;
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  /* -------------------------------------------------------------
+     COMPREHENSIVE LIGHT THEME RULES ACROSS ALL PAGES & MODALS
+     ------------------------------------------------------------- */
+  .light-theme body,
+  html.light-theme {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  /* Main background surfaces */
+  .light-theme .bg-\[\#0a0c10\],
+  .light-theme .bg-\[\#0b0d11\],
+  .light-theme .bg-\[\#0b0d12\],
+  .light-theme .bg-\[\#0b0e14\],
+  .light-theme .bg-\[\#090b0f\],
+  .light-theme .bg-\[\#0d0f14\],
+  .light-theme .bg-\[\#0d0f14\]\/95,
+  .light-theme .bg-\[\#0e1117\],
+  .light-theme .bg-\[\#11141a\],
+  .light-theme header {
+    background-color: #ffffff !important;
+  }
+
+  /* Shop Landing Page Hero Overlay & Logo in Light Mode */
+  .light-theme .bg-gradient-to-t.from-\[\#0b0e14\].via-\[\#0b0e14\]\/60.to-black\/30 {
+    background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0.85) 50%, rgba(0, 0, 0, 0.4)) !important;
+  }
+
+  .light-theme .border-4.border-\[\#0b0e14\] {
+    border-color: #ffffff !important;
+  }
+
+  .light-theme .bg-gradient-to-b.from-\[\#1c2230\].to-\[\#131720\] {
+    background: linear-gradient(to bottom, #ffffff, #f1f5f9) !important;
+    border-color: #f59e0b50 !important;
+  }
+
+  /* ALL SIDEBARS (Map Discovery, Owner Dashboard, Admin Panel) */
+  .light-theme aside,
+  .light-theme aside.w-full,
+  .light-theme .w-full.md\:w-\[420px\],
+  .light-theme .w-full.md\:w-64,
+  .light-theme .bg-\[\#0e1117\] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Map Discovery Left Sidebar Header & Cards */
+  .light-theme .p-4.border-b.border-slate-800\/80.space-y-3.bg-\[\#11141c\],
+  .light-theme .bg-\[\#11141c\] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  .light-theme .bg-\[\#141822\]\/80 {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .light-theme .bg-\[\#141822\]\/80:hover,
+  .light-theme .hover\:bg-\[\#181d2a\]:hover {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .light-theme .bg-slate-800\/90 {
+    background-color: #f1f5f9 !important;
+  }
+
+  .light-theme .p-3.bg-\[\#0b0e14\].border-t.border-slate-800\/80 {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Sidebar nav item inactive states */
+  .light-theme aside nav button.text-slate-400 {
+    color: #475569 !important;
+  }
+
+  .light-theme aside nav button.text-slate-400:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  /* Elevated cards, panels & sidebars */
+  .light-theme .bg-\[\#131720\],
+  .light-theme .bg-\[\#131720\]\/90,
+  .light-theme .bg-\[\#141822\],
+  .light-theme .bg-\[\#181d2a\],
+  .light-theme .bg-\[\#151923\],
+  .light-theme .bg-\[\#161a22\],
+  .light-theme .bg-\[\#171b26\],
+  .light-theme .bg-\[\#1c2230\],
+  .light-theme .bg-slate-900,
+  .light-theme .bg-slate-900\/40,
+  .light-theme .bg-slate-900\/50,
+  .light-theme .bg-slate-900\/60,
+  .light-theme .bg-slate-900\/70,
+  .light-theme .bg-slate-900\/80,
+  .light-theme .bg-slate-900\/90,
+  .light-theme .bg-slate-950,
+  .light-theme .bg-slate-950\/60,
+  .light-theme .bg-slate-950\/80,
+  .light-theme .bg-slate-950\/90 {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Geographic Map Coordinates Nested Box in Shop Profile */
+  .light-theme .p-4.rounded-2xl.bg-slate-900\/70 {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  .light-theme .bg-gradient-to-r.from-rose-950\/40.to-slate-900 {
+    background: linear-gradient(to right, #fff1f2, #ffe4e6) !important;
+    border-color: #f43f5e40 !important;
+  }
+
+  .light-theme .bg-gradient-to-r.from-rose-950\/40.to-slate-900 h3 {
+    color: #9f1239 !important;
+  }
+
+  /* About & Pricing cards */
+  .light-theme .p-6.rounded-3xl.bg-\[\#131720\] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .light-theme .bg-gradient-to-br.from-\[\#171b26\].to-\[\#12151e\] {
+    background: linear-gradient(to bottom right, #ffffff, #f8fafc) !important;
+    border-color: #f59e0b40 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .light-theme .bg-slate-900\/90.rounded-2xl {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  /* Subscription & Billing Tab Cards & Pills in Light Mode */
+  .light-theme .p-6.rounded-2xl.bg-gradient-to-r.from-\[\#171b26\].to-\[\#12151e\] {
+    background: linear-gradient(to right, #ffffff, #f8fafc) !important;
+    border-color: #f59e0b50 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .light-theme .p-4.rounded-xl.bg-blue-500\/10.border.border-blue-500\/30 {
+    background-color: #eff6ff !important;
+    border-color: #93c5fd !important;
+  }
+
+  .light-theme .p-4.rounded-xl.bg-emerald-500\/10.border.border-emerald-500\/30 {
+    background-color: #ecfdf5 !important;
+    border-color: #a7f3d0 !important;
+  }
+
+  .light-theme .border-2.border-dashed.border-slate-700 {
+    border-color: #cbd5e1 !important;
+    background-color: #f8fafc !important;
+  }
+
+  .light-theme .border-2.border-dashed.border-slate-700:hover {
+    border-color: #f59e0b !important;
+    background-color: #fefce8 !important;
+  }
+
+  /* Modal backdrops & inner containers */
+  .light-theme .fixed .bg-\[\#151923\],
+  .light-theme .fixed .bg-\[\#161a22\],
+  .light-theme .fixed .bg-\[\#131720\] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .light-theme .bg-slate-800,
+  .light-theme .bg-slate-800\/80,
+  .light-theme .bg-slate-800\/60,
+  .light-theme .bg-slate-800\/50,
+  .light-theme .bg-slate-800\/40 {
+    background-color: #f1f5f9 !important;
+  }
+
+  /* Borders & Dividers */
+  .light-theme .border-slate-800,
+  .light-theme .border-slate-800\/80,
+  .light-theme .border-slate-800\/60,
+  .light-theme .border-slate-700,
+  .light-theme .border-slate-700\/90,
+  .light-theme .border-slate-700\/80,
+  .light-theme .border-slate-700\/60,
+  .light-theme .border-slate-700\/50,
+  .light-theme .border-slate-600 {
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Text & Heading Colors */
+  .light-theme .text-white,
+  .light-theme h1,
+  .light-theme h2,
+  .light-theme h3,
+  .light-theme h4 {
+    color: #0f172a !important;
+  }
+
+  .light-theme .text-slate-100,
+  .light-theme .text-slate-200,
+  .light-theme .text-slate-300 {
+    color: #334155 !important;
+  }
+
+  .light-theme .text-slate-400 {
+    color: #64748b !important;
+  }
+
+  .light-theme .text-slate-500 {
+    color: #64748b !important;
+  }
+
+  /* Inputs, selects, and textareas */
+  .light-theme input,
+  .light-theme select,
+  .light-theme textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .light-theme input::placeholder,
+  .light-theme textarea::placeholder {
+    color: #94a3b8 !important;
+  }
+
+  .light-theme input:focus,
+  .light-theme select:focus,
+  .light-theme textarea:focus {
+    border-color: #f59e0b !important;
+    background-color: #ffffff !important;
+  }
+
+  /* Table styling */
+  .light-theme table {
+    color: #334155 !important;
+  }
+
+  .light-theme tr:hover td {
+    background-color: #f8fafc !important;
+  }
+
+  .light-theme th {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+  }
+
+  .light-theme td {
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Leaflet Popups in light mode */
+  .light-theme .leaflet-popup-content-wrapper {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .light-theme .leaflet-popup-tip {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+  }
+}
+
+/* Custom Leaflet Map styling for BarberMap dark aesthetic */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  background: #11141a !important;
+  font-family: inherit;
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
+
+.leaflet-pane {
+  z-index: 15 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #161a22 !important;
+  color: #f1f5f9 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid #28303e !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: inherit !important;
+}
+
+.leaflet-popup-tip {
+  background: #161a22 !important;
+  border: 1px solid #28303e !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  padding: 8px 8px 0 0 !important;
+  font-size: 1.25rem !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #f59e0b !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0f12;
+}
+::-webkit-scrollbar-thumb {
+  background: #262b35;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4252;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.03); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite ease-in-out;
+}
