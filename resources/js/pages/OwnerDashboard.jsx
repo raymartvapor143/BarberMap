@@ -78,10 +78,10 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#0b0e14] text-slate-100 flex flex-col md:flex-row relative">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#0b0e14] text-slate-100 flex flex-col lg:flex-row relative">
       
-      {/* MOBILE DASHBOARD TOP BAR */}
-      <div className="md:hidden bg-[#0e1117] border-b border-slate-800/80 p-3.5 flex items-center justify-between z-30">
+      {/* MOBILE DASHBOARD TOP BAR (< 1024px) */}
+      <div className="lg:hidden bg-[#0e1117] border-b border-slate-800/80 p-3.5 flex items-center justify-between z-30">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
             <Store className="w-4 h-4" />
@@ -96,7 +96,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-2 rounded-xl bg-[#161b26] border border-slate-700/80 text-amber-400 font-bold text-xs flex items-center gap-1.5 shadow-md"
         >
-          <span>Menu</span>
+          <span>Shop Menu</span>
           <ChevronRight className={`w-3.5 h-3.5 transition-transform ${mobileMenuOpen ? 'rotate-90' : ''}`} />
         </button>
       </div>
@@ -112,7 +112,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
       {/* SIDEBAR NAVIGATION (Desktop: Collapsible Mini-rail / Full | Mobile: Slide-over Drawer) */}
       <aside 
         className={`bg-[#0e1117] border-r border-slate-800/80 flex flex-col justify-between flex-shrink-0 z-40 transition-all duration-300 ease-in-out ${
-          // Desktop Width: 68px when collapsed, 260px when expanded
+          // Desktop Width: 72px when collapsed, 260px when expanded
           sidebarCollapsed ? 'lg:w-[72px] lg:p-3' : 'lg:w-64 lg:p-4'
         } ${
           // Mobile & tablet responsive slide-over drawer
@@ -135,7 +135,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
             {/* Desktop Collapse / Expand Toggle Button */}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="hidden md:flex p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-colors"
+              className="hidden lg:flex p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-amber-400 transition-colors"
               title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronRight className="w-4 h-4 rotate-180" />}
@@ -144,7 +144,7 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
             {/* Mobile close button */}
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="md:hidden p-1 text-slate-400 hover:text-white"
+              className="lg:hidden p-1 text-slate-400 hover:text-white"
             >
               ✕
             </button>
@@ -165,12 +165,13 @@ export default function OwnerDashboard({ tab = 'dashboard', navigate }) {
                   title={sidebarCollapsed ? item.label : undefined}
                   className={`w-full flex items-center ${sidebarCollapsed ? 'justify-center px-2 py-3' : 'gap-3 px-3 py-2.5'} rounded-xl text-xs font-semibold transition-all group relative ${
                     isActive
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                      ? 'bg-amber-500 !text-slate-950 font-bold shadow-md shadow-amber-500/20'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
                   }`}
+                  style={isActive ? { color: '#0b0e14' } : {}}
                 >
-                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-amber-400'}`} />
-                  {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? '!text-slate-950' : 'text-slate-400 group-hover:text-amber-400'}`} style={isActive ? { color: '#0b0e14' } : {}} />
+                  {!sidebarCollapsed && <span className="truncate" style={isActive ? { color: '#0b0e14' } : {}}>{item.label}</span>}
                 </button>
               );
             })}
